@@ -476,25 +476,62 @@ a.clink:hover .go{color:var(--accent)}
 .mailbtn{
   border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent);
   font-size:12px;font-weight:650;padding:6px 12px;border-radius:7px;
-  display:inline-flex;align-items:center;gap:5px;transition:.16s;
+  display:inline-flex;align-items:center;gap:5px;transition:.16s;cursor:pointer;
 }
 .mailbtn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mailbtn[aria-expanded="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mailbtn span{transition:transform .2s}
+.mailbtn[aria-expanded="true"] span{transform:rotate(180deg)}
+
+/* 固定定位，脱离所有 overflow 容器，永不被裁切 */
 .mailmenu{
-  position:absolute;bottom:calc(100% + 9px);right:0;width:222px;padding:5px;
-  background:var(--panel);border:1px solid var(--line-2);border-radius:10px;
-  box-shadow:var(--shadow);z-index:60;
-  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(5px);
-  transition:opacity .18s,transform .18s,visibility .18s;
+  position:fixed;left:0;top:0;width:236px;padding:6px;
+  background:var(--panel);border:1px solid var(--line-2);border-radius:12px;
+  box-shadow:0 18px 44px -12px rgba(28,20,14,.28),0 2px 8px rgba(28,20,14,.06);
+  z-index:900;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(6px) scale(.985);
+  transform-origin:bottom right;
+  transition:opacity .17s ease,transform .17s cubic-bezier(.2,.7,.3,1),visibility .17s;
 }
-.mailmenu.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
+.mailmenu.open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.mailmenu .mm-head{
+  font-family:var(--mono);font-size:9px;color:var(--faint);
+  letter-spacing:.1em;text-transform:uppercase;padding:5px 9px 7px;
+}
 .mailmenu button{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
-  padding:8px 11px;border:0;border-radius:6px;background:transparent;
-  font-size:12.5px;color:var(--ink);text-align:left;transition:background .14s;
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:8px 9px;border:0;border-radius:7px;background:transparent;
+  font-family:inherit;font-size:12.5px;color:var(--ink);text-align:left;
+  cursor:pointer;transition:background .14s,color .14s;
 }
-.mailmenu button:hover{background:var(--panel-2)}
-.mailmenu button .h{font-family:var(--mono);font-size:9.5px;color:var(--faint)}
-.mailmenu hr{border:0;border-top:1px solid var(--line);margin:4px 3px}
+.mailmenu button:hover,.mailmenu button:focus-visible{background:var(--panel-2);outline:0}
+.mailmenu button .mi{
+  flex:0 0 auto;width:19px;height:19px;border-radius:5px;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:9.5px;font-weight:700;
+  color:var(--muted);background:var(--panel-3);border:1px solid var(--line);
+}
+.mailmenu button .mt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mailmenu button .h{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.03em}
+.mailmenu .mm-sep{height:1px;background:var(--line);margin:5px 4px}
+.mailmenu button.mm-copy{color:var(--accent);font-weight:640}
+.mailmenu button.mm-copy .mi{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-line)}
+.mailmenu button.mm-copy:hover{background:var(--accent-soft)}
+.mailmenu .mm-foot{
+  font-family:var(--mono);font-size:9px;color:var(--faint);
+  text-align:center;padding:6px 4px 3px;letter-spacing:.03em;
+}
+
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,14px);
+  background:var(--ink);color:var(--bg);
+  font-size:12.5px;font-weight:560;letter-spacing:.01em;
+  padding:9px 16px;border-radius:999px;z-index:950;
+  opacity:0;pointer-events:none;
+  transition:opacity .22s,transform .22s cubic-bezier(.2,.7,.3,1);
+  box-shadow:0 10px 26px -8px rgba(0,0,0,.35);
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
 
 footer{
   border-top:1px solid var(--line);margin-top:60px;padding:24px 0 44px;
@@ -550,7 +587,7 @@ footer .r{margin-left:auto}
   }
   body{background:#fff;font-size:10.5pt}
   body::before{display:none}
-  .topbar,#progress,.icon-btn,.planner,.mailwrap,.os-head,.os-grid,.tagrow{display:none!important}
+  .topbar,#progress,.icon-btn,.planner,.mailwrap,.mailmenu,.toast,.os-head,.os-grid,.tagrow{display:none!important}
   section{padding:14pt 0;break-inside:avoid}
   .rv{opacity:1!important;transform:none!important}
   .dogrid,.work-grid,.learn-grid{grid-template-columns:1fr 1fr}
@@ -1105,16 +1142,6 @@ footer .r{margin-left:auto}
           <div><div class="k">EMAIL</div><div class="v">2210914541@qq.com</div></div>
           <div class="mailwrap">
             <button class="mailbtn" id="mailBtn" aria-haspopup="true" aria-expanded="false">发邮件 <span>▾</span></button>
-            <div class="mailmenu" id="mailMenu" role="menu">
-              <button data-mail="qq">QQ 邮箱 <span class="h">qq.com</span></button>
-              <button data-mail="163">网易 163 邮箱 <span class="h">163.com</span></button>
-              <button data-mail="126">网易 126 邮箱 <span class="h">126.com</span></button>
-              <button data-mail="gmail">Gmail <span class="h">google</span></button>
-              <button data-mail="outlook">Outlook <span class="h">microsoft</span></button>
-              <button data-mail="default">系统默认邮箱 <span class="h">mailto</span></button>
-              <hr>
-              <button data-mail="copy">复制邮箱地址 <span class="h">copy</span></button>
-            </div>
           </div>
         </div>
         <a class="clink" href="https://github.com/z15346183030" target="_blank" rel="noopener">
@@ -1143,6 +1170,22 @@ footer .r{margin-left:auto}
 </section>
 
 </main>
+
+<!-- 发邮件菜单：挂在 body 层，避免被卡片 overflow 裁切 -->
+<div class="mailmenu" id="mailMenu" role="menu" aria-label="选择邮箱">
+  <div class="mm-head">选择你的邮箱</div>
+  <button type="button" data-mail="qq" role="menuitem"><span class="mi">Q</span><span class="mt">QQ 邮箱</span><span class="h">qq.com</span></button>
+  <button type="button" data-mail="163" role="menuitem"><span class="mi">1</span><span class="mt">网易 163 邮箱</span><span class="h">163.com</span></button>
+  <button type="button" data-mail="126" role="menuitem"><span class="mi">1</span><span class="mt">网易 126 邮箱</span><span class="h">126.com</span></button>
+  <button type="button" data-mail="gmail" role="menuitem"><span class="mi">G</span><span class="mt">Gmail</span><span class="h">google</span></button>
+  <button type="button" data-mail="outlook" role="menuitem"><span class="mi">O</span><span class="mt">Outlook</span><span class="h">microsoft</span></button>
+  <button type="button" data-mail="default" role="menuitem"><span class="mi">@</span><span class="mt">系统默认邮箱</span><span class="h">mailto</span></button>
+  <div class="mm-sep"></div>
+  <button type="button" class="mm-copy" data-mail="copy" role="menuitem"><span class="mi">⧉</span><span class="mt">一键复制邮箱</span><span class="h">copy</span></button>
+  <div class="mm-foot">2210914541@qq.com</div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
@@ -1368,6 +1411,8 @@ footer .r{margin-left:auto}
   var EMAIL = '2210914541@qq.com';
   var mailBtn = document.getElementById('mailBtn');
   var mailMenu = document.getElementById('mailMenu');
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
   var SUBJ = encodeURIComponent('聊聊 AI 赋能这件事');
   var MAIL = {
     qq: 'https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=' + EMAIL,
@@ -1377,42 +1422,122 @@ footer .r{margin-left:auto}
     outlook: 'https://outlook.live.com/mail/0/deeplink/compose?to=' + EMAIL + '&subject=' + SUBJ,
     'default': 'mailto:' + EMAIL + '?subject=' + SUBJ
   };
+
+  function toast(msg){
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove('on'); }, 2200);
+  }
+
+  /* 剪贴板在部分浏览器/权限状态下 promise 可能一直挂起，加超时兜底 */
+  function copyEmail(cb){
+    var settled = false;
+    function finish(success){
+      if (settled) return;
+      settled = true;
+      cb(success);
+    }
+    function legacy(){
+      var ta = document.createElement('textarea');
+      ta.value = EMAIL;
+      ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, EMAIL.length);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e){ ok = false; }
+      document.body.removeChild(ta);
+      finish(ok !== false);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(EMAIL).then(function(){ finish(true); }, legacy);
+      setTimeout(function(){ if (!settled) legacy(); }, 350);
+    } else {
+      legacy();
+    }
+  }
+
+  /* 菜单挂在 body 上、用 fixed 定位：先量尺寸再定位，永不被父级裁切 */
+  function placeMenu(){
+    var r = mailBtn.getBoundingClientRect();
+    var mw = mailMenu.offsetWidth || 236;
+    var mh = mailMenu.offsetHeight || 300;
+    var pad = 12, gap = 8;
+
+    var left = r.right - mw;
+    if (left < pad) left = pad;
+    if (left + mw > window.innerWidth - pad) left = window.innerWidth - pad - mw;
+
+    var top = r.bottom + gap;
+    var below = true;
+    if (top + mh > window.innerHeight - pad) {
+      // 下面放不下就翻到上面
+      var up = r.top - mh - gap;
+      if (up >= pad) { top = up; below = false; }
+      else { top = Math.max(pad, window.innerHeight - pad - mh); }
+    }
+
+    mailMenu.style.left = Math.round(left) + 'px';
+    mailMenu.style.top = Math.round(top) + 'px';
+    mailMenu.style.transformOrigin = (below ? 'top right' : 'bottom right');
+  }
+
+  function openMenu(){
+    placeMenu();
+    mailMenu.classList.add('open');
+    mailBtn.setAttribute('aria-expanded','true');
+  }
   function closeMenu(){
     mailMenu.classList.remove('open');
     mailBtn.setAttribute('aria-expanded','false');
   }
+
   mailBtn.addEventListener('click', function(e){
     e.stopPropagation();
-    var open = mailMenu.classList.toggle('open');
-    mailBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (mailMenu.classList.contains('open')) { closeMenu(); return; }
+    openMenu();
   });
+
   mailMenu.addEventListener('click', function(e){
     var b = e.target.closest('button[data-mail]');
     if (!b) return;
     var k = b.getAttribute('data-mail');
+
     if (k === 'copy') {
-      var done = function(){
-        b.childNodes[0].nodeValue = '已复制 ';
-        setTimeout(function(){ b.childNodes[0].nodeValue = '复制邮箱地址 '; closeMenu(); }, 1200);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(EMAIL).then(done, done);
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = EMAIL; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); } catch(e){}
-        document.body.removeChild(ta); done();
-      }
+      copyEmail(function(ok){
+        toast(ok ? '邮箱已复制：' + EMAIL : '复制失败，请手动复制：' + EMAIL);
+        closeMenu();
+      });
       return;
     }
+
+    if (k === '163' || k === '126') {
+      // 这两家不支持 URL 预填收件人，先跳过去再把地址放进剪贴板
+      window.open(MAIL[k], '_blank', 'noopener');
+      copyEmail(function(ok){
+        toast(ok
+          ? '已打开 ' + (k === '163' ? '163' : '126') + ' 邮箱，地址已复制，粘贴即可'
+          : '已打开 ' + (k === '163' ? '163' : '126') + ' 邮箱，请手动复制：' + EMAIL);
+      });
+      closeMenu();
+      return;
+    }
+
     if (MAIL[k]) window.open(MAIL[k], '_blank', 'noopener');
     closeMenu();
   });
+
   document.addEventListener('click', function(e){
-    if (!e.target.closest('.mailwrap')) closeMenu();
+    if (!e.target.closest('#mailMenu') && !e.target.closest('.mailwrap')) closeMenu();
   });
+  window.addEventListener('resize', function(){ if (mailMenu.classList.contains('open')) placeMenu(); });
+  window.addEventListener('scroll', closeMenu, {passive:true});
+
   document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') closeMenu();
+    if (e.key === 'Escape') { closeMenu(); return; }
     if ((e.key === 't' || e.key === 'T')) {
       var a = document.activeElement;
       if (a && /input|textarea/i.test(a.tagName)) return;
