@@ -1,0 +1,64 @@
+# 赵旭 / Zhao Xu
+
+> AI 应用工程师。不做单点 demo，把 AI 接到企业的业务、数据、流程和人身上。
+> 覆盖从场景识别、原型开发、数据接入、RAG/Agent、评测体系、部署运维到内部培训的完整链路。
+
+## 基本信息
+
+- 角色：AI 应用工程师 / AI 赋能（AI Enablement）
+- 求职方向：企业内 AI 赋能、AI 产品、AI 应用工程
+- 地点：青岛，可远程、可出差
+- 到岗：可立即到岗
+- 邮箱：2210914541@qq.com
+- GitHub：https://github.com/z15346183030
+- 本站：https://z15346183030.github.io/ai-enablement/
+
+## 能力域（8 项，均可独立交付）
+
+1. 场景识别与优先级排序 — 流程节点拆解、价值×可行性×阻力三轴排序、把痛点翻译成可验收指标
+2. AI 原型开发 — Python + FastAPI 全栈，一到两周出可用原型
+3. RAG 与知识库 — 文档切分策略、混合召回（向量 + 关键词）、重排、引用溯源
+4. Agent 与工作流编排 — 路径固定用状态机，路径开放才交给模型；工具权限在代码层强制
+5. 数据接入与清洗 — 源系统盘点、口径对齐、增量同步、幂等写入
+6. 评测体系与质量门控 — LLM-as-Judge 多评委 + ICC 一致性检验，threshold + min_cases 双闸门
+7. 部署、监控与成本 — Docker、Linux、CI/CD、全链路 trace、模型分级路由、入口 PII 护栏
+8. 内部培训与规范 — 模板沉淀、种子用户陪跑、使用规范、工具选型
+
+## 代表项目
+
+### Multi-Agent Code Studio（2025.03 — 至今）
+AI 生成代码质量方差大，无法判断可用性。用五维加权评分 + ICC 组内相关系数检验评委一致性，加质量门控，形成「评测 → 归因 → 优化」闭环。
+关键词：LLM-as-Judge、ICC、Eval Gate、多 Agent
+
+### GEO Optimizer（2026.06 — 至今）
+内容在传统搜索排名尚可，但被 AI 搜索引擎引用率接近零。设计 6 维度评分模型 + 五维加权 + ICC 校准，输出具体到句子的改写建议。FastAPI 服务化。
+关键词：评分建模、ICC、FastAPI、生成式引擎优化
+
+### 跨境选品上架 Agent（2025.02 — 2025.03）
+选品到上架全人工。拆成「采集 → 筛选 → 内容生成 → 上架」四步受控工作流，放弃全自动 Agent 选状态机，因为验收标准是不出错而非够聪明。
+关键词：Workflow、Prompt 模板、受控生成
+
+### 高考择校 AI 问答（2024.06 — 至今）
+考生信息不对称。Python / FastAPI 全栈上线，答案带引用溯源，服务 200+ 用户，埋行为数据驱动迭代。
+关键词：全栈、FastAPI、行为埋点
+
+## 开源工具
+
+- squeeze — 上下文压缩 CLI，实测省 60–87% token
+- llm-as-judge — 多评委评分 + ICC 一致性检验
+- depmap — Python 模块依赖图，零依赖
+- reverse-engineer-for-everything — 软件逆向工具箱，带证据链
+- prompt-playground — 纯前端 Prompt 测试台
+- daily-forge — 每天复刻一个千星开源项目
+
+## 技术栈
+
+- 模型层：GPT-4 / o 系列、Claude、Gemini、开源模型本地部署、微调与蒸馏、量化推理、多模型对比评测、模型路由、Embedding 选型
+- 应用层：Prompt 工程、RAG、Agent 编排、Function Calling、MCP、LangChain、LlamaIndex、多 Agent 协作、上下文压缩、结构化输出、工作流状态机
+- 数据层：Python、SQL、pandas、向量数据库、文档切分、混合召回与重排、数据清洗、口径对齐、增量同步、ETL
+- 工程层：FastAPI、Git、Linux、Docker、Kubernetes、CI/CD、OpenTelemetry、日志与 trace、成本与延迟监控、灰度与回滚、PII 护栏
+- 产品与赋能层：需求拆解、PRD、用户访谈、原型设计、A/B 测试、数据埋点、ROI 测算、内部培训、规范制定、工具选型、知识库建设
+
+## 关于学习速度
+
+未做过的领域，一到两周可做到能用，一个月可做到能教别人。方法是用复刻和逆向代替看教程：想学一个工具就把它复刻一遍，想搞懂一个系统就把它拆开，每一步都留下可运行的产物。
