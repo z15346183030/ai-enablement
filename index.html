@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>赵旭 — 帮一家公司把 AI 用起来</title>
+<meta name="description" content="赵旭，AI 应用工程师。不做单点 demo，把 AI 接到现有业务、数据、流程和人身上：找场景、搭原型、接数据、做评测、定规范、带同事，一条链自己走完。">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="赵旭 — 帮一家公司把 AI 用起来">
+<meta property="og:description" content="你要的不是一个 AI 项目，是一个让全公司会用 AI 的人。">
+<meta property="og:locale" content="zh_CN">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f04e23'/%3E%3Cpath d='M9 22.5 16 9l7 13.5' stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"赵旭",
+  "alternateName":"Zhao Xu",
+  "jobTitle":"AI Application Engineer",
+  "description":"把 AI 落到企业业务、数据、流程和人身上的工程师。覆盖场景识别、原型开发、数据接入、RAG/Agent、评测体系、部署运维与内部赋能。",
+  "knowsAbout":["AI 应用工程","RAG","Agent 编排","LLM 评测体系","数据接入","工作流自动化","AI 落地方法论","内部赋能"],
+  "knowsLanguage":["zh-CN","en"],
+  "sameAs":["https://github.com/z15346183030"]
+}
+</script>
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", "Roboto Mono", Consolas, monospace;
+
+  --bg:#fbfaf7;
+  --panel:#ffffff;
+  --panel-2:#f6f4ef;
+  --panel-3:#efece5;
+  --line:#e7e2d9;
+  --line-2:#d6cec2;
+  --ink:#15120f;
+  --ink-2:#3b352f;
+  --muted:#6b635a;
+  --faint:#9c948a;
+  --accent:#e0431a;
+  --accent-2:#ff6a37;
+  --accent-soft:#fdf0ea;
+  --accent-line:#f6c4b1;
+  --green:#0f7a52;
+  --green-soft:#eef7f2;
+  --shadow:0 20px 50px -30px rgba(40,28,16,.4);
+}
+html[data-theme="dark"]{
+  --bg:#0f0d0b;
+  --panel:#16130f;
+  --panel-2:#1c1815;
+  --panel-3:#241f1a;
+  --line:#2a2521;
+  --line-2:#3a332c;
+  --ink:#f6f2ea;
+  --ink-2:#d8d1c6;
+  --muted:#a49a8e;
+  --faint:#776e64;
+  --accent:#ff6a37;
+  --accent-2:#ff8b5e;
+  --accent-soft:#2a1a12;
+  --accent-line:#5c3221;
+  --green:#3ddc97;
+  --green-soft:#12241c;
+  --shadow:0 24px 60px -30px rgba(0,0,0,.9);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:15.5px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(120,100,70,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,100,70,.05) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 85% 55% at 50% 0%,#000 10%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 85% 55% at 50% 0%,#000 10%,transparent 75%);
+}
+html[data-theme="dark"] body::before{
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:var(--accent);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+.mono{font-family:var(--mono)}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+#progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:120;background:var(--accent);transition:width .1s linear}
+.topbar{
+  position:sticky;top:0;z-index:100;height:60px;
+  display:flex;align-items:center;gap:16px;
+  padding:0 clamp(16px,4vw,44px);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(16px) saturate(1.5);
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.brand .dot{
+  width:9px;height:9px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px var(--accent-soft);
+}
+.brand .nm{font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.brand .rl{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.08em;margin-left:4px;white-space:nowrap}
+.topnav{display:flex;gap:1px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.topnav::-webkit-scrollbar{display:none}
+.topnav a{
+  font-size:13px;color:var(--muted);padding:7px 12px;border-radius:7px;white-space:nowrap;
+  transition:color .16s,background .16s;
+}
+.topnav a:hover{color:var(--ink);background:var(--panel-2)}
+.topnav a.active{color:var(--accent);background:var(--accent-soft);font-weight:600}
+.icon-btn{
+  flex:0 0 auto;width:34px;height:34px;display:grid;place-items:center;
+  border:1px solid var(--line-2);border-radius:8px;background:var(--panel);
+  color:var(--muted);transition:.16s;
+}
+.icon-btn:hover{color:var(--ink);border-color:var(--faint)}
+.icon-btn svg{width:15px;height:15px}
+html[data-theme="dark"] .i-sun{display:none}
+html[data-theme="light"] .i-moon{display:none}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+main{position:relative;z-index:1}
+.wrap{max-width:1140px;margin:0 auto;padding:0 clamp(16px,4vw,44px)}
+section{padding:clamp(58px,8vw,100px) 0;scroll-margin-top:60px}
+.sec-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:38px;flex-wrap:wrap}
+.sec-num{
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  letter-spacing:.1em;padding-bottom:9px;
+}
+.sec-title{
+  font-size:clamp(26px,3.6vw,40px);font-weight:750;letter-spacing:-.028em;
+  line-height:1.14;margin:0;
+}
+.sec-title em{font-style:normal;color:var(--accent)}
+.sec-sub{
+  font-size:13.5px;color:var(--muted);margin-left:auto;max-width:38ch;
+  line-height:1.65;padding-bottom:4px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding-top:clamp(42px,5.5vw,72px);padding-bottom:clamp(18px,2.5vw,30px)}
+.tagrow{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+  margin-bottom:28px;
+}
+.pill{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;
+  padding:4px 10px;border-radius:20px;
+  border:1px solid var(--line-2);color:var(--muted);background:var(--panel);
+}
+.pill.live{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent);font-weight:600}
+.pill.live i{
+  display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);
+  margin-right:6px;vertical-align:1px;animation:blink 1.8s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+.hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(30px,4.5vw,62px);align-items:start}
+h1.hero-title{
+  font-size:clamp(32px,4.9vw,56px);line-height:1.16;letter-spacing:-.035em;
+  font-weight:780;margin:0 0 24px;
+}
+h1.hero-title .q{color:var(--muted);font-weight:650}
+h1.hero-title .hl{
+  color:var(--accent);position:relative;
+  background:linear-gradient(180deg,transparent 60%,rgba(224,67,26,.17) 60%);
+  padding:0 2px;
+}
+.hero-lead{font-size:16px;color:var(--ink-2);line-height:1.8;margin:0 0 14px;max-width:54ch}
+.hero-lead b{color:var(--ink);font-weight:650}
+.hero-lead.sm{font-size:14.5px;color:var(--muted)}
+
+.figures{display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,42px);margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+.fig .n{
+  font-family:var(--mono);font-size:clamp(22px,2.6vw,29px);font-weight:600;
+  letter-spacing:-.03em;line-height:1;color:var(--ink);
+}
+.fig .n span{color:var(--accent);font-size:.62em;margin-left:1px}
+.fig .l{font-size:12px;color:var(--muted);margin-top:7px;letter-spacing:.01em}
+
+/* capability matrix card */
+.matrix{
+  border:1px solid var(--line-2);border-radius:14px;background:var(--panel);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.matrix-bar{
+  display:flex;align-items:center;gap:8px;padding:11px 15px;
+  border-bottom:1px solid var(--line);background:var(--panel-2);
+}
+.matrix-bar .fname{
+  font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.02em;
+}
+.matrix-bar .live-dot{
+  margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--green);
+  display:inline-flex;align-items:center;gap:5px;letter-spacing:.04em;
+}
+.matrix-bar .live-dot i{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.matrix-body{padding:6px 0}
+.matrix-body{padding:14px 14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.cap-cell{
+  background:var(--panel);padding:11px 12px;
+  display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;
+  gap:1px 8px;align-items:center;transition:background .16s;
+}
+.cap-cell:hover{background:var(--panel-2)}
+.cap-cell .cc-n{font-size:12.5px;font-weight:640;color:var(--ink);letter-spacing:-.01em;line-height:1.35}
+.cap-cell .cc-t{grid-column:1;font-size:10.5px;color:var(--muted);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cap-cell .cc-ok{
+  grid-column:2;grid-row:1/3;
+  font-family:var(--mono);font-size:8px;letter-spacing:.06em;color:var(--green);
+  border:1px solid color-mix(in srgb,var(--green) 30%,transparent);
+  background:var(--green-soft);
+  padding:2px 5px;border-radius:3px;
+  animation:ccIn .5s cubic-bezier(.2,.7,.3,1) backwards;
+}
+@keyframes ccIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.matrix-foot{
+  padding:11px 16px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:9.5px;color:var(--faint);
+  display:flex;justify-content:space-between;gap:10px;letter-spacing:.02em;
+}
+
+/* ============================================================
+   WHAT I DO
+   ============================================================ */
+.dogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.do{
+  background:var(--panel);padding:clamp(22px,2.8vw,30px);
+  position:relative;transition:background .18s;
+}
+.do:hover{background:var(--panel-2)}
+.do-h{display:flex;align-items:baseline;gap:11px;margin-bottom:6px}
+.do-h .i{
+  font-family:var(--mono);font-size:10px;font-weight:600;color:var(--accent);
+  letter-spacing:.06em;flex:0 0 auto;
+}
+.do-h h3{font-size:17px;font-weight:700;letter-spacing:-.018em;margin:0;line-height:1.35}
+.do > p{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.68}
+.do ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.do li{position:relative;padding-left:15px;font-size:13px;color:var(--ink-2);line-height:1.6}
+.do li::before{
+  content:"";position:absolute;left:0;top:8px;width:6px;height:1.5px;background:var(--accent);
+  opacity:.6;
+}
+
+/* ============================================================
+   PLAN GENERATOR
+   ============================================================ */
+.planner{
+  border:1px solid var(--line-2);border-radius:14px;background:var(--panel);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.planner-top{
+  padding:clamp(20px,2.6vw,28px);
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+}
+.planner-top .hint{
+  font-family:var(--mono);font-size:10.5px;color:var(--faint);
+  letter-spacing:.05em;margin-bottom:16px;display:flex;align-items:center;gap:7px;
+}
+.planner-top .hint i{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.field{margin-bottom:15px}
+.field:last-of-type{margin-bottom:0}
+.field .lab{
+  font-size:11.5px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:.01em;
+}
+.opts{display:flex;flex-wrap:wrap;gap:7px}
+.opts button{
+  border:1px solid var(--line-2);background:var(--panel);color:var(--muted);
+  font-size:12.5px;padding:7px 14px;border-radius:8px;transition:.16s;
+}
+.opts button:hover{border-color:var(--faint);color:var(--ink)}
+.opts button.on{
+  border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600;
+}
+.gen-row{display:flex;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.gen-btn{
+  border:0;background:var(--ink);color:var(--bg);
+  font-size:13.5px;font-weight:600;padding:11px 22px;border-radius:9px;
+  display:inline-flex;align-items:center;gap:8px;transition:.16s;
+}
+.gen-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
+.gen-btn svg{width:13px;height:13px}
+.gen-note{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.02em}
+
+.plan-out{
+  padding:clamp(20px,2.6vw,28px);
+  font-family:var(--mono);font-size:12.5px;line-height:1.85;
+  min-height:120px;
+}
+.plan-out .ln{
+  display:grid;grid-template-columns:78px 1fr;gap:14px;
+  padding:6px 0;border-bottom:1px dashed var(--line);
+}
+.plan-out .ln:last-child{border-bottom:0}
+.plan-out .k{
+  color:var(--faint);font-size:9.5px;letter-spacing:.06em;padding-top:3px;
+}
+.plan-out .v{color:var(--ink-2);word-break:break-word;font-family:var(--sans);font-size:13.5px;line-height:1.72}
+.plan-out .v b{color:var(--ink);font-weight:650}
+.plan-out .v .hl{color:var(--accent);font-weight:600}
+.plan-out .ph{
+  grid-column:1/-1;padding-top:9px;
+  font-family:var(--mono);font-size:9.5px;color:var(--accent);letter-spacing:.1em;
+}
+.plan-out .empty{
+  color:var(--faint);font-family:var(--sans);font-size:13.5px;
+  padding:14px 0;
+}
+.plan-foot{
+  padding:13px 16px;border-top:1px solid var(--line);background:var(--panel-2);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.plan-foot .st{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.03em}
+.copy-btn{
+  margin-left:auto;border:1px solid var(--line-2);background:var(--panel);color:var(--muted);
+  font-size:11.5px;padding:5px 12px;border-radius:6px;transition:.16s;
+}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ============================================================
+   WORK
+   ============================================================ */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.work{
+  border:1px solid var(--line);border-radius:13px;background:var(--panel);
+  padding:clamp(22px,2.6vw,28px);display:flex;flex-direction:column;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.work::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(360px circle at var(--mx,50%) var(--my,0%),var(--accent-soft),transparent 68%);
+}
+.work:hover{border-color:var(--line-2);transform:translateY(-3px);box-shadow:var(--shadow)}
+.work:hover::after{opacity:1}
+.work-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:5px;position:relative;z-index:1}
+.work-top h3{font-size:17.5px;font-weight:720;letter-spacing:-.022em;margin:0;line-height:1.35}
+.work-top .cat{
+  font-family:var(--mono);font-size:9px;color:var(--accent);
+  border:1px solid var(--accent-line);background:var(--accent-soft);
+  padding:2px 7px;border-radius:4px;white-space:nowrap;margin-left:auto;flex:0 0 auto;
+  letter-spacing:.04em;
+}
+.work .role{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.03em;margin-bottom:16px;position:relative;z-index:1}
+.work-rows{display:flex;flex-direction:column;gap:10px;flex:1;position:relative;z-index:1}
+.wrow{display:grid;grid-template-columns:44px 1fr;gap:11px;align-items:baseline}
+.wrow .k{
+  font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.07em;
+  text-transform:uppercase;padding-top:2px;
+}
+.wrow .v{font-size:13.5px;color:var(--muted);line-height:1.66}
+.wrow .v b{color:var(--ink);font-weight:640}
+.wrow .v .num{color:var(--accent);font-weight:700;font-family:var(--mono);font-size:.94em}
+.work-foot{
+  display:flex;flex-wrap:wrap;gap:5px;margin-top:16px;padding-top:14px;
+  border-top:1px solid var(--line);position:relative;z-index:1;
+}
+.work-foot span{
+  font-family:var(--mono);font-size:9.5px;color:var(--muted);
+  border:1px solid var(--line);border-radius:4px;padding:2px 7px;background:var(--panel-2);
+}
+
+.os-head{
+  display:flex;align-items:center;gap:12px;margin:34px 0 6px;
+  font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.08em;
+}
+.os-head i{flex:1;height:1px;background:var(--line)}
+.os-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.os-item{
+  background:var(--panel);padding:15px 17px;transition:background .16s;
+  display:flex;flex-direction:column;gap:4px;
+}
+.os-item:hover{background:var(--panel-2)}
+.os-item .nm{font-family:var(--mono);font-size:12px;color:var(--ink);letter-spacing:-.01em;display:flex;align-items:center;gap:6px}
+.os-item .nm .go{color:var(--faint);font-size:10px;margin-left:auto;transition:color .16s}
+.os-item:hover .nm .go{color:var(--accent)}
+.os-item .ds{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* ============================================================
+   STACK
+   ============================================================ */
+.stack{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.layer{
+  display:grid;grid-template-columns:192px 1fr;gap:clamp(14px,3vw,32px);
+  padding:clamp(18px,2.2vw,24px);border-bottom:1px solid var(--line);
+  transition:background .16s;
+}
+.layer:last-child{border-bottom:0}
+.layer:hover{background:var(--panel-2)}
+.layer .lh{display:flex;flex-direction:column;gap:3px}
+.layer .lh .ln{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.08em}
+.layer .lh .lt{font-size:14.5px;font-weight:700;letter-spacing:-.015em;line-height:1.35}
+.layer .lh .ld{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.tags span{
+  font-size:12.5px;color:var(--ink-2);
+  border:1px solid var(--line-2);border-radius:6px;
+  padding:4px 10px;background:var(--panel);
+  transition:.16s;
+}
+.layer:hover .tags span{border-color:var(--line-2)}
+.tags span.core{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* ============================================================
+   LEARN
+   ============================================================ */
+.learn-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,48px);align-items:start}
+.learn-txt p{font-size:15px;color:var(--ink-2);line-height:1.82;margin:0 0 16px}
+.learn-txt p b{color:var(--ink);font-weight:650}
+.learn-txt .quote{
+  border-left:2px solid var(--accent);padding:2px 0 2px 16px;
+  font-size:15.5px;color:var(--ink);line-height:1.75;margin:22px 0;
+}
+.learn-txt .quote b{color:var(--accent)}
+.evid{display:flex;flex-direction:column;gap:10px}
+.ev{
+  border:1px solid var(--line);border-radius:10px;background:var(--panel);
+  padding:16px 18px;display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .16s,transform .16s;
+}
+.ev:hover{border-color:var(--line-2);transform:translateX(3px)}
+.ev .ei{
+  font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);
+  flex:0 0 auto;padding-top:1px;
+}
+.ev .ec{min-width:0}
+.ev .et{font-size:13.5px;font-weight:680;letter-spacing:-.01em;margin-bottom:3px}
+.ev .ed{font-size:12.5px;color:var(--muted);line-height:1.6}
+.ev .ed code{
+  font-family:var(--mono);font-size:11.5px;background:var(--panel-2);
+  padding:1px 5px;border-radius:3px;color:var(--ink-2);
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact{
+  border:1px solid var(--line-2);border-radius:16px;background:var(--panel);
+  padding:clamp(28px,4.5vw,52px);box-shadow:var(--shadow);
+}
+.contact h2{
+  font-size:clamp(25px,3.6vw,38px);font-weight:760;letter-spacing:-.03em;
+  line-height:1.24;margin:0 0 16px;
+}
+.contact h2 .hl{color:var(--accent)}
+.contact > p{font-size:15px;color:var(--muted);max-width:60ch;margin:0 0 30px;line-height:1.78}
+.contact > p b{color:var(--ink);font-weight:650}
+.cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.clink{background:var(--panel);padding:16px 18px;display:flex;align-items:center;gap:12px;transition:background .16s}
+a.clink:hover{background:var(--panel-2)}
+.clink .k{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.08em;margin-bottom:3px}
+.clink .v{font-size:13.5px;color:var(--ink);font-weight:520}
+.clink .go{margin-left:auto;color:var(--faint);font-size:12px;transition:color .16s}
+a.clink:hover .go{color:var(--accent)}
+.mailwrap{position:relative;margin-left:auto}
+.mailbtn{
+  border:1px solid var(--accent-line);background:var(--accent-soft);color:var(--accent);
+  font-size:12px;font-weight:650;padding:6px 12px;border-radius:7px;
+  display:inline-flex;align-items:center;gap:5px;transition:.16s;
+}
+.mailbtn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mailmenu{
+  position:absolute;bottom:calc(100% + 9px);right:0;width:222px;padding:5px;
+  background:var(--panel);border:1px solid var(--line-2);border-radius:10px;
+  box-shadow:var(--shadow);z-index:60;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(5px);
+  transition:opacity .18s,transform .18s,visibility .18s;
+}
+.mailmenu.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
+.mailmenu button{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  padding:8px 11px;border:0;border-radius:6px;background:transparent;
+  font-size:12.5px;color:var(--ink);text-align:left;transition:background .14s;
+}
+.mailmenu button:hover{background:var(--panel-2)}
+.mailmenu button .h{font-family:var(--mono);font-size:9.5px;color:var(--faint)}
+.mailmenu hr{border:0;border-top:1px solid var(--line);margin:4px 3px}
+
+footer{
+  border-top:1px solid var(--line);margin-top:60px;padding:24px 0 44px;
+  display:flex;flex-wrap:wrap;gap:10px;
+  font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.03em;
+}
+footer .r{margin-left:auto}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .62s cubic-bezier(.2,.7,.3,1),transform .62s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .dogrid,.work-grid,.learn-grid{grid-template-columns:1fr}
+  .os-grid{grid-template-columns:repeat(2,1fr)}
+  .sec-sub{margin-left:0;max-width:100%;padding-bottom:0;flex-basis:100%}
+}
+@media (max-width:720px){
+  .layer{grid-template-columns:1fr;gap:10px}
+  .cgrid{grid-template-columns:1fr}
+  .os-grid{grid-template-columns:1fr}
+  .brand .rl{display:none}
+  .topnav a{padding:7px 9px;font-size:12px}
+  .plan-out .ln{grid-template-columns:1fr;gap:1px;padding:8px 0}
+  .plan-out .k{padding-top:0}
+  .wrow{grid-template-columns:1fr;gap:1px}
+  .wrow .k{padding-top:0}
+  .matrix-body{grid-template-columns:1fr}
+  .figures{display:grid;grid-template-columns:1fr 1fr;gap:20px 18px}
+  .fig .l{font-size:11.5px;line-height:1.45}
+  .matrix-foot{flex-direction:column;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .rv{opacity:1;transform:none}
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print{
+  :root,html[data-theme="dark"],html[data-theme="light"]{
+    --bg:#fff;--panel:#fff;--panel-2:#fff;--panel-3:#fff;
+    --line:#ddd;--line-2:#ccc;--ink:#111;--ink-2:#333;--muted:#555;--faint:#777;
+    --accent:#b3341a;--accent-soft:#fdf2ee;--accent-line:#e5b8a8;--green:#0a6b47;
+  }
+  body{background:#fff;font-size:10.5pt}
+  body::before{display:none}
+  .topbar,#progress,.icon-btn,.planner,.mailwrap,.os-head,.os-grid,.tagrow{display:none!important}
+  section{padding:14pt 0;break-inside:avoid}
+  .rv{opacity:1!important;transform:none!important}
+  .dogrid,.work-grid,.learn-grid{grid-template-columns:1fr 1fr}
+  .contact{margin-top:10pt}
+  footer{margin-top:14pt;padding:8pt 0}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="topbar">
+  <a class="brand" href="#top">
+    <span class="dot"></span>
+    <span class="nm">赵旭</span>
+    <span class="rl">AI ENABLEMENT</span>
+  </a>
+  <nav class="topnav" id="topnav">
+    <a href="#do">能做什么</a>
+    <a href="#plan">90 天路线</a>
+    <a href="#work">项目</a>
+    <a href="#stack">技术栈</a>
+    <a href="#learn">学习速度</a>
+    <a href="#contact">联系</a>
+  </nav>
+  <button class="icon-btn" id="themeBtn" aria-label="切换深浅色主题">
+    <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+  </button>
+</header>
+
+<main>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="tagrow">
+      <span class="pill live"><i></i>可立即到岗</span>
+      <span class="pill">全职</span>
+      <span class="pill">青岛 / 远程 / 可出差</span>
+      <span class="pill">接受 AI 赋能 · AI 产品 · AI 应用工程</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-title">
+          <span class="q">你要的不是一个</span><br>
+          AI 项目。<br>
+          是一个让全公司<br>
+          <span class="hl">会用 AI</span>的人。
+        </h1>
+        <p class="hero-lead">
+          我不做单点 demo。我做的是把 AI 接到你现有的<b>业务、数据、流程和人</b>身上 —— 找场景、搭原型、接数据、做评测、定规范、带同事，一条链我自己走完。
+        </p>
+        <p class="hero-lead sm">
+          会写代码，也读得懂业务。能跟老板谈投入产出，也能坐下来把接口调通。
+        </p>
+
+        <div class="figures">
+          <div class="fig"><div class="n">10<span>+</span></div><div class="l">独立完成的 AI 系统</div></div>
+          <div class="fig"><div class="n">6</div><div class="l">开源工具</div></div>
+          <div class="fig"><div class="n">8</div><div class="l">能力域全覆盖</div></div>
+          <div class="fig"><div class="n">3</div><div class="l">业务域（营销 / 供应链 / 内容）</div></div>
+        </div>
+      </div>
+
+      <div class="matrix" aria-label="能力矩阵">
+        <div class="matrix-bar">
+          <span class="fname">capability_matrix.json</span>
+          <span class="live-dot"><i></i>ALL GREEN</span>
+        </div>
+        <div class="matrix-body" id="matrixBody">
+          <div class="cap-cell"><span class="cc-n">场景识别与优先级</span><span class="cc-t">流程拆解 · ROI 排序</span><span class="cc-ok" style="animation-delay:0.15s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">AI 原型开发</span><span class="cc-t">FastAPI · 全栈</span><span class="cc-ok" style="animation-delay:0.20s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">RAG 与知识库</span><span class="cc-t">混合召回 · 重排 · 引用</span><span class="cc-ok" style="animation-delay:0.25s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">Agent 与工作流</span><span class="cc-t">状态机 · 工具权限</span><span class="cc-ok" style="animation-delay:0.30s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">数据接入与清洗</span><span class="cc-t">口径对齐 · 增量同步</span><span class="cc-ok" style="animation-delay:0.35s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">评测与质量门控</span><span class="cc-t">LLM-as-Judge · ICC</span><span class="cc-ok" style="animation-delay:0.40s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">部署与成本控制</span><span class="cc-t">容器 · trace · 路由</span><span class="cc-ok" style="animation-delay:0.45s">READY</span></div>
+          <div class="cap-cell"><span class="cc-n">内部培训与规范</span><span class="cc-t">模板 · 陪跑 · 选型</span><span class="cc-ok" style="animation-delay:0.50s">READY</span></div>
+        </div>
+        <div class="matrix-foot">
+          <span>8 / 8 domains · 0 blocked</span>
+          <span>last sync: today</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     01 WHAT I DO
+     ============================================================ -->
+<section id="do">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">一个人，八个角色</h2>
+      <span class="sec-sub">公司里做 AI 赋能，最难的不是技术，是这八件事你得同时兜得住。</span>
+    </div>
+
+    <div class="dogrid rv">
+
+      <article class="do">
+        <div class="do-h"><span class="i">01</span><h3>找到值得做的场景</h3></div>
+        <p>大部分公司不缺 AI 想法，缺的是判断哪个值得先做。</p>
+        <ul>
+          <li>把业务流程拆成节点，标出谁在等谁、哪里最耗时</li>
+          <li>按「价值 × 可行性 × 阻力」三轴排序，选出第一个样板</li>
+          <li>把「太慢了」翻译成可验收的指标：周期、工时、错误率</li>
+          <li>明确哪些是 AI 能解决的，哪些是组织和权限问题</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">02</span><h3>一周做出能用的原型</h3></div>
+        <p>不写 PPT 画饼，先给你一个能点开的东西。</p>
+        <ul>
+          <li>Python + FastAPI 全栈，前端到后端一个人写</li>
+          <li>先做最窄的一条链路，能跑通再谈扩展</li>
+          <li>用真实数据跑，不用玩具样本糊弄</li>
+          <li>原型阶段就把成本和延迟算进去，避免后期推翻</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">03</span><h3>把数据接进来</h3></div>
+        <p>模型再强，喂进去的数据口径不一致，输出就是精致的错误。</p>
+        <ul>
+          <li>源系统盘点：ERP / CRM / WMS / 一堆 Excel，逐个确认取数方式</li>
+          <li>口径对齐：同一个「订单金额」三张表三个数，先定文档再写代码</li>
+          <li>清洗、去重、增量同步、幂等写入</li>
+          <li>向量化与索引，让检索层能稳定召回</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">04</span><h3>让模型真的答得准</h3></div>
+        <p>RAG 不是「把文档塞进去」就完事，召回质量决定一切。</p>
+        <ul>
+          <li>切分策略对比、混合召回（向量 + 关键词）、重排</li>
+          <li>答案必须能点回原文，不给用户「听起来对」的东西</li>
+          <li>Agent 编排：路径固定的用状态机，路径开放才交给模型</li>
+          <li>工具权限在代码层强制，不靠 prompt 里写「请不要」</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">05</span><h3>让它不出错</h3></div>
+        <p>这是我花时间最多的一块，也是 demo 和产品真正的分界线。</p>
+        <ul>
+          <li>建立评测样本库，每次改动跑全量回归</li>
+          <li>LLM-as-Judge 多评委 + ICC 一致性检验，避免单评委漂移</li>
+          <li>双闸门：准确率下限 + 样本量下限，不达标就阻断发布</li>
+          <li>线上失败案例自动回流成新样本，越用越准</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">06</span><h3>让它跑得住、算得过账</h3></div>
+        <p>上线不是终点，是成本开始计费的地方。</p>
+        <ul>
+          <li>Docker 容器化、Linux 部署、CI/CD、版本可回滚</li>
+          <li>全链路 trace：检索、重排、生成、工具调用逐段看耗时</li>
+          <li>模型分级路由：简单请求走小模型，复杂请求才升级</li>
+          <li>PII 护栏放在入口，敏感数据不出域</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">07</span><h3>让同事都会用</h3></div>
+        <p>一个人做得再好也只有一双手，赋能的意思是让能力长在别人身上。</p>
+        <ul>
+          <li>把高频任务做成模板和内部工具，降低使用门槛</li>
+          <li>写清楚什么该用 AI、什么不该用，避免全员乱试</li>
+          <li>小范围培训 + 陪跑，先让两三个人用出效果</li>
+          <li>沉淀内部知识库，让好用的 prompt 和流程可复用</li>
+        </ul>
+      </article>
+
+      <article class="do">
+        <div class="do-h"><span class="i">08</span><h3>让这件事持续下去</h3></div>
+        <p>AI 半年一变，今天选的技术栈明年可能就废了。</p>
+        <ul>
+          <li>工具选型：按团队实际能力选，不追最热的</li>
+          <li>建立评估机制，新模型出来能快速横向对比</li>
+          <li>把每个项目的经验抽象成可复用组件</li>
+          <li>跟踪成本曲线，让 AI 的投入产出始终算得清</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     02 PLANNER
+     ============================================================ -->
+<section id="plan">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">给你公司排个 <em>90 天</em></h2>
+      <span class="sec-sub">选三个条件，看我第一周会怎么动手。这是真的会照着做的计划，不是场面话。</span>
+    </div>
+
+    <div class="planner rv">
+      <div class="planner-top">
+        <div class="hint"><i></i>选择你公司的情况，生成落地路线</div>
+
+        <div class="field">
+          <div class="lab">团队规模</div>
+          <div class="opts" id="optSize">
+            <button data-v="small" class="on">20 人以下</button>
+            <button data-v="mid">20 – 200 人</button>
+            <button data-v="big">200 人以上</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="lab">行业</div>
+          <div class="opts" id="optInd">
+            <button data-v="mfg" class="on">制造 / 供应链</button>
+            <button data-v="retail">零售 / 电商</button>
+            <button data-v="service">服务 / 专业机构</button>
+            <button data-v="content">内容 / 媒体</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="lab">最想解决的问题</div>
+          <div class="opts" id="optPain">
+            <button data-v="eff" class="on">人效太低</button>
+            <button data-v="cost">成本压不下来</button>
+            <button data-v="cs">客户响应慢</button>
+            <button data-v="know">知识找不到</button>
+            <button data-v="content">内容产出慢</button>
+          </div>
+        </div>
+
+        <div class="gen-row">
+          <button class="gen-btn" id="genBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            生成 90 天路线
+          </button>
+          <span class="gen-note">纯前端规则生成 · 不调用模型 · 换条件可重跑</span>
+        </div>
+      </div>
+
+      <div class="plan-out" id="planOut">
+        <div class="empty">选好上面三项，点「生成 90 天路线」——会输出一份带验收指标和风险提示的周计划。</div>
+      </div>
+
+      <div class="plan-foot">
+        <span class="st" id="planSt">idle</span>
+        <button class="copy-btn" id="copyBtn">复制这份路线</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03 WORK
+     ============================================================ -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">我搭过的东西</h2>
+      <span class="sec-sub">每个都按「问题 → 判断 → 做法 → 结果」写，不写形容词。</span>
+    </div>
+
+    <div class="work-grid rv">
+
+      <article class="work">
+        <div class="work-top"><h3>Multi-Agent Code Studio</h3><span class="cat">评测体系</span></div>
+        <div class="role">2025.03 — 至今 · 独立设计与开发</div>
+        <div class="work-rows">
+          <div class="wrow"><span class="k">问题</span><span class="v">AI 生成代码的质量方差极大，团队没法判断「这次能不能用」，只能靠人肉看。</span></div>
+          <div class="wrow"><span class="k">判断</span><span class="v">没有人工标注预算，只能用 LLM 当评委；但单评委评分漂移严重，必须先解决<b>评委本身可不可信</b>。</span></div>
+          <div class="wrow"><span class="k">做法</span><span class="v">五维加权评分 + <b>ICC 组内相关系数</b>检验评委一致性，一致性不达标就回去重定义维度；再加质量门控，分数不过直接拦在合并前。</span></div>
+          <div class="wrow"><span class="k">结果</span><span class="v">形成「评测 → 归因 → 优化」闭环，质量判断从主观变成可复现的流程。</span></div>
+        </div>
+        <div class="work-foot"><span>LLM-as-Judge</span><span>ICC</span><span>Eval Gate</span><span>多 Agent</span></div>
+      </article>
+
+      <article class="work">
+        <div class="work-top"><h3>GEO Optimizer</h3><span class="cat">AI 内容</span></div>
+        <div class="role">2026.06 — 至今 · 独立设计与开发</div>
+        <div class="work-rows">
+          <div class="wrow"><span class="k">问题</span><span class="v">内容在传统搜索里排名不错，但被 AI 搜索引擎引用的概率接近零，没人说得清为什么。</span></div>
+          <div class="wrow"><span class="k">判断</span><span class="v">「会被引用」没有标准答案，只能自己构造可复现的代理指标，否则优化就是玄学。</span></div>
+          <div class="wrow"><span class="k">做法</span><span class="v">拆出 <b>6 维度评分模型</b>，五维加权 + ICC 校准，输出具体到句子的改写建议，而不是一个总分。</span></div>
+          <div class="wrow"><span class="k">结果</span><span class="v">FastAPI 服务化，可直接嵌进内容生产流程，从「凭感觉改」变成「按分数改」。</span></div>
+        </div>
+        <div class="work-foot"><span>评分建模</span><span>ICC</span><span>FastAPI</span><span>AI 搜索</span></div>
+      </article>
+
+      <article class="work">
+        <div class="work-top"><h3>跨境选品上架 Agent</h3><span class="cat">工作流</span></div>
+        <div class="role">2025.02 — 2025.03 · 独立开发</div>
+        <div class="work-rows">
+          <div class="wrow"><span class="k">问题</span><span class="v">选品到上架全靠人工，一个人一天只能处理几十个 SKU，且文案质量忽高忽低。</span></div>
+          <div class="wrow"><span class="k">判断</span><span class="v">上架内容直接面对消费者，<b>验收标准是「不出错」而不是「够聪明」</b>，所以不能交给自由 Agent。</span></div>
+          <div class="wrow"><span class="k">做法</span><span class="v">拆成「采集 → 筛选 → 内容生成 → 上架」四步受控工作流，Prompt 模板化，每步产物可回看可改。</span></div>
+          <div class="wrow"><span class="k">结果</span><span class="v">流程从串行人工变成并行流水线，产出可控、可复核、可追责。</span></div>
+        </div>
+        <div class="work-foot"><span>Workflow</span><span>Prompt 模板</span><span>受控生成</span><span>AIGC</span></div>
+      </article>
+
+      <article class="work">
+        <div class="work-top"><h3>高考择校 AI 问答</h3><span class="cat">全栈产品</span></div>
+        <div class="role">2024.06 — 至今 · 独立开发并运营</div>
+        <div class="work-rows">
+          <div class="wrow"><span class="k">问题</span><span class="v">考生和家长的信息严重不对称，公开数据散在几百个页面里，搜到的还经常是过期的。</span></div>
+          <div class="wrow"><span class="k">判断</span><span class="v">这类问题用户真正要的不是「聊」，是<b>一个能追溯来源的答案</b>，所以答案必须带出处。</span></div>
+          <div class="wrow"><span class="k">做法</span><span class="v">Python / FastAPI 全栈上线，从数据整理到前端交互一个人写完；埋行为数据看用户在哪一步卡住。</span></div>
+          <div class="wrow"><span class="k">结果</span><span class="v">服务 <span class="num">200+</span> 用户；「先埋点、看数据、再改」这个习惯后来一直沿用。</span></div>
+        </div>
+        <div class="work-foot"><span>全栈</span><span>FastAPI</span><span>行为埋点</span><span>数据整理</span></div>
+      </article>
+
+    </div>
+
+    <div class="os-head rv"><span>开源工具 · 都是我遇到问题自己写的</span><i></i><span>GITHUB</span></div>
+    <div class="os-grid rv">
+      <a class="os-item" href="https://github.com/z15346183030/squeeze" target="_blank" rel="noopener">
+        <span class="nm">squeeze <span class="go">↗</span></span>
+        <span class="ds">上下文压缩 CLI，实测省 60–87% token</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/llm-as-judge" target="_blank" rel="noopener">
+        <span class="nm">llm-as-judge <span class="go">↗</span></span>
+        <span class="ds">多评委评分 + ICC 一致性检验</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/depmap" target="_blank" rel="noopener">
+        <span class="nm">depmap <span class="go">↗</span></span>
+        <span class="ds">Python 模块依赖图，零依赖，读懂陌生代码库</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/reverse-engineer-for-everything" target="_blank" rel="noopener">
+        <span class="nm">逆向一切 <span class="go">↗</span></span>
+        <span class="ds">软件逆向工具箱，每一步都留证据链</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/prompt-playground" target="_blank" rel="noopener">
+        <span class="nm">prompt-playground <span class="go">↗</span></span>
+        <span class="ds">纯前端 Prompt 测试台，改完立刻看差异</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/daily-forge" target="_blank" rel="noopener">
+        <span class="nm">daily-forge <span class="go">↗</span></span>
+        <span class="ds">每天复刻一个千星项目，保持手速</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04 STACK
+     ============================================================ -->
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">技术栈</h2>
+      <span class="sec-sub">橙色是每天都在用的，其余是能独立交付的。没有列出我不会用的东西。</span>
+    </div>
+
+    <div class="stack rv">
+
+      <div class="layer">
+        <div class="lh">
+          <span class="ln">LAYER 01</span>
+          <span class="lt">模型层</span>
+          <span class="ld">选哪个、怎么调、何时不该用</span>
+        </div>
+        <div class="tags">
+          <span class="core">GPT-4 / o 系列</span>
+          <span class="core">Claude</span>
+          <span class="core">Gemini</span>
+          <span>开源模型本地部署</span>
+          <span>微调与蒸馏</span>
+          <span>量化推理</span>
+          <span>多模型对比评测</span>
+          <span>模型路由</span>
+          <span>Embedding 选型</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="lh">
+          <span class="ln">LAYER 02</span>
+          <span class="lt">应用层</span>
+          <span class="ld">把模型变成能干活的东西</span>
+        </div>
+        <div class="tags">
+          <span class="core">Prompt 工程</span>
+          <span class="core">RAG</span>
+          <span class="core">Agent 编排</span>
+          <span class="core">Function Calling</span>
+          <span>MCP</span>
+          <span>LangChain</span>
+          <span>LlamaIndex</span>
+          <span>多 Agent 协作</span>
+          <span>上下文压缩</span>
+          <span>结构化输出</span>
+          <span>工作流状态机</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="lh">
+          <span class="ln">LAYER 03</span>
+          <span class="lt">数据层</span>
+          <span class="ld">决定答得对不对的那一半</span>
+        </div>
+        <div class="tags">
+          <span class="core">Python</span>
+          <span class="core">SQL</span>
+          <span class="core">pandas</span>
+          <span>向量数据库</span>
+          <span>文档切分策略</span>
+          <span>混合召回与重排</span>
+          <span>数据清洗</span>
+          <span>口径对齐</span>
+          <span>增量同步</span>
+          <span>ETL</span>
+          <span>Excel 深度处理</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="lh">
+          <span class="ln">LAYER 04</span>
+          <span class="lt">工程层</span>
+          <span class="ld">让它能上线、能查错、算得过账</span>
+        </div>
+        <div class="tags">
+          <span class="core">FastAPI</span>
+          <span class="core">Git</span>
+          <span class="core">Linux</span>
+          <span>Docker</span>
+          <span>Kubernetes</span>
+          <span>CI/CD</span>
+          <span>OpenTelemetry</span>
+          <span>日志与 trace</span>
+          <span>成本与延迟监控</span>
+          <span>灰度与回滚</span>
+          <span>PII 护栏</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="lh">
+          <span class="ln">LAYER 05</span>
+          <span class="lt">产品与赋能层</span>
+          <span class="ld">技术之外，让事情真正发生</span>
+        </div>
+        <div class="tags">
+          <span class="core">需求拆解</span>
+          <span class="core">PRD</span>
+          <span class="core">用户访谈</span>
+          <span>原型设计</span>
+          <span>A/B 测试</span>
+          <span>数据埋点</span>
+          <span>ROI 测算</span>
+          <span>内部培训</span>
+          <span>规范制定</span>
+          <span>工具选型</span>
+          <span>知识库建设</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05 LEARN
+     ============================================================ -->
+<section id="learn">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">不会的，我学得很快</h2>
+      <span class="sec-sub">AI 这个领域没有人的知识是完整的。真正的差别是补的速度。</span>
+    </div>
+
+    <div class="learn-grid rv">
+      <div class="learn-txt">
+        <p>
+          上面那张技术栈不是终点。这个行业每半年换一轮，<b>今天会的东西明年一定不够用</b>，所以我更在意的是自己补新东西的速度，而不是现在手里有什么。
+        </p>
+        <p>
+          我的方法很笨但有效：<b>直接拆一个真东西下来</b>。想学某个工具，就把它复刻一遍；想搞懂某个系统，就把它逆向拆开，每一步都写清楚为什么这么设计。拆完的东西都是能跑的程序，不是笔记。
+        </p>
+        <div class="quote">
+          没做过的领域，给我<b>一到两周</b>，我能做到能用；给我<b>一个月</b>，我能做到能教别人。
+        </div>
+        <p>
+          所以面试时如果你问到一个我没碰过的技术，我不会含糊过去。我会告诉你我没做过，然后告诉你我打算怎么在一周内把它跑起来 —— 并且给得出具体的路径。
+        </p>
+      </div>
+
+      <div class="evid">
+        <div class="ev">
+          <span class="ei">01</span>
+          <div class="ec">
+            <div class="et">daily-forge</div>
+            <div class="ed">每天复刻一个千星开源项目，从读代码到跑通到改一版。持续练的不是知识，是<b>读陌生代码的速度</b>。</div>
+          </div>
+        </div>
+        <div class="ev">
+          <span class="ei">02</span>
+          <div class="ec">
+            <div class="et">逆向一切</div>
+            <div class="ed">软件逆向工具箱，每个结论都要能追溯到证据。学一个系统的内部机制，最快的方式就是把它拆开看。</div>
+          </div>
+        </div>
+        <div class="ev">
+          <span class="ei">03</span>
+          <div class="ec">
+            <div class="et">squeeze</div>
+            <div class="ed">发现长会话 token 成本太高，没有现成方案好用，就自己写了一个压缩 CLI，实测省 <code>60–87%</code>。</div>
+          </div>
+        </div>
+        <div class="ev">
+          <span class="ei">04</span>
+          <div class="ec">
+            <div class="et">depmap</div>
+            <div class="ed">进一个陌生代码库，先画依赖图。零依赖实现，因为这个工具本身不该成为新的依赖。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06 CONTACT
+     ============================================================ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact rv">
+      <h2>你缺的不是方案，<br>是<span class="hl">把方案做出来的人</span>。</h2>
+      <p>
+        如果你们正在想「AI 到底能帮公司做什么」，或者已经有一堆想法但没人落地 —— 我可以来做这件事。从第一个样板开始，做到全公司都在用。
+      </p>
+
+      <div class="cgrid">
+        <div class="clink">
+          <div><div class="k">EMAIL</div><div class="v">2210914541@qq.com</div></div>
+          <div class="mailwrap">
+            <button class="mailbtn" id="mailBtn" aria-haspopup="true" aria-expanded="false">发邮件 <span>▾</span></button>
+            <div class="mailmenu" id="mailMenu" role="menu">
+              <button data-mail="qq">QQ 邮箱 <span class="h">qq.com</span></button>
+              <button data-mail="163">网易 163 邮箱 <span class="h">163.com</span></button>
+              <button data-mail="126">网易 126 邮箱 <span class="h">126.com</span></button>
+              <button data-mail="gmail">Gmail <span class="h">google</span></button>
+              <button data-mail="outlook">Outlook <span class="h">microsoft</span></button>
+              <button data-mail="default">系统默认邮箱 <span class="h">mailto</span></button>
+              <hr>
+              <button data-mail="copy">复制邮箱地址 <span class="h">copy</span></button>
+            </div>
+          </div>
+        </div>
+        <a class="clink" href="https://github.com/z15346183030" target="_blank" rel="noopener">
+          <div><div class="k">GITHUB</div><div class="v">z15346183030</div></div><span class="go">↗</span>
+        </a>
+        <a class="clink" href="tel:15346183030">
+          <div><div class="k">PHONE</div><div class="v">153 4618 3030</div></div><span class="go">↗</span>
+        </a>
+        <div class="clink">
+          <div><div class="k">LOCATION</div><div class="v">青岛 · 可远程 / 可出差</div></div>
+        </div>
+        <div class="clink">
+          <div><div class="k">AVAILABLE</div><div class="v">可立即到岗</div></div>
+        </div>
+        <div class="clink">
+          <div><div class="k">OPEN TO</div><div class="v">AI 赋能 / AI 产品 / AI 应用工程</div></div>
+        </div>
+      </div>
+
+      <footer>
+        <span>© 2026 赵旭</span>
+        <span class="r">BUILT WITH AI, SHIPPED BY HAND</span>
+      </footer>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------------- theme ---------------- */
+  var root = document.documentElement;
+  var saved = null;
+  try { saved = localStorage.getItem('ai-site-theme'); } catch(e){}
+  if (saved) root.setAttribute('data-theme', saved);
+  var meta = document.querySelector('meta[name="theme-color"]');
+  function syncMeta(){
+    if(!meta) return;
+    meta.setAttribute('content', root.getAttribute('data-theme')==='dark' ? '#0f0d0b' : '#fbfaf7');
+  }
+  syncMeta();
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    var next = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('ai-site-theme', next); } catch(e){}
+    syncMeta();
+  });
+
+  /* ---------------- progress ---------------- */
+  var bar = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---------------- reveal ---------------- */
+  var rvList = Array.prototype.slice.call(document.querySelectorAll('.rv'));
+  function sweep(){
+    var vh = window.innerHeight;
+    rvList.forEach(function(el){
+      if (el.getBoundingClientRect().top < vh * 0.94) el.classList.add('in');
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.05, rootMargin:'0px 0px -30px 0px'});
+    rvList.forEach(function(el){ io.observe(el); });
+  } else {
+    rvList.forEach(function(el){ el.classList.add('in'); });
+  }
+  window.addEventListener('load', function(){ setTimeout(sweep, 50); });
+  window.addEventListener('hashchange', function(){ setTimeout(sweep, 420); });
+
+  /* ---------------- nav active ---------------- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('#topnav a'));
+  var secs = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function setActive(){
+    var y = window.scrollY + window.innerHeight * 0.3;
+    var idx = 0;
+    secs.forEach(function(s,i){ if (s && s.offsetTop <= y) idx = i; });
+    navLinks.forEach(function(a,i){ a.classList.toggle('active', i === idx); });
+  }
+  window.addEventListener('scroll', setActive, {passive:true});
+  setActive();
+
+  /* ---------------- card glow ---------------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.work'), function(card){
+    card.addEventListener('mousemove', function(e){
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ============================================================
+     PLANNER
+     ============================================================ */
+  var SEL = { size:'small', ind:'mfg', pain:'eff' };
+
+  var SIZE_TXT = { small:'20 人以下', mid:'20 – 200 人', big:'200 人以上' };
+  var IND_TXT  = { mfg:'制造 / 供应链', retail:'零售 / 电商', service:'服务 / 专业机构', content:'内容 / 媒体' };
+  var PAIN_TXT = { eff:'人效太低', cost:'成本压不下来', cs:'客户响应慢', know:'知识找不到', content:'内容产出慢' };
+
+  // 行业专属：最容易见效的切口
+  var IND_CUT = {
+    mfg: '订单/报价流转、齐套与排产、售后工单、设备与质检记录的结构化',
+    retail: '商品文案与详情页、选品与补货建议、客服问答、评价洞察',
+    service: '方案与标书撰写、客户资料整理、历史案例检索、工时与排期',
+    content: '选题与大纲、多平台改写、素材归档检索、审稿与合规检查'
+  };
+
+  // 规模决定的第一枪
+  var SIZE_MOVE = {
+    small: '不铺平台，直接做一个最痛的点的工具，两周内让全公司每天用上',
+    mid: '选一个部门做样板，做出可量化的结果，再复制到第二个部门',
+    big: '先做一次全公司场景盘点，选价值最高且阻力最小的一条线切入，同时准备接入 IT 与安全规范'
+  };
+
+  // 痛点决定样板项目
+  var PAIN_PROJ = {
+    eff: '把一条重复度最高的流程做成半自动工作流：人只做判断，机器做搬运、整理和初稿',
+    cost: '做一次调用成本审计，把简单请求路由到小模型 + 缓存，通常能砍掉一半以上的模型开销',
+    cs: '搭一个带引用溯源的问答助手，接在客服或销售侧，先解决「答得慢」再解决「答得准」',
+    know: '把散落在文档、聊天记录、共享盘里的知识做成可检索库，答案必须能点回原文',
+    content: '建一条内容流水线：素材进、初稿出、人只做审校，配合评分模型控制质量下限'
+  };
+
+  // 痛点对应的验收指标
+  var PAIN_KPI = {
+    eff: '单次任务耗时、人均日处理量、返工率',
+    cost: '单次调用成本、月模型账单、缓存命中率',
+    cs: '首响时间、一次解决率、转人工比例',
+    know: '查找耗时、答案采纳率、重复提问次数',
+    content: '单篇产出时长、返修轮次、发布量'
+  };
+
+  var PAIN_RISK = {
+    eff: '流程本身有组织问题，AI 会把混乱放大。先确认卡点是「人不够」还是「流程绕」',
+    cost: '只降成本不降质量很难，必须同时定义质量下限，否则省下来的钱会赔在返工上',
+    cs: '客户问题里有大量权限与政策边界，模型不能替人承诺，必须留人工确认环节',
+    know: '文档本身是脏的、过期的、互相矛盾的。不先做文档治理，检索只会更快地给出错答案',
+    content: '品牌调性和合规红线模型不懂，必须有审校环节和可回滚的版本管理'
+  };
+
+  function buildPlan(){
+    var s = SEL.size, i = SEL.ind, p = SEL.pain;
+    return [
+      ['TARGET', '<b>' + SIZE_TXT[s] + ' · ' + IND_TXT[i] + ' · 优先解决「' + PAIN_TXT[p] + '」</b>'],
+      ['__PH__', 'W1–W2 · 先看清楚'],
+      ['动作', '跟 3–5 个一线的人各待半天，把他们的实际工作流画出来，标出谁在等谁、哪一步最耗时。'],
+      ['产出', '一张流程节点图 + 一份「值得做 / 不值得做」的场景清单，每个场景标注预期收益和实现难度。'],
+      ['判断', '这个行业最容易见效的切口通常在：' + IND_CUT[i] + '。但清单要以现场看到的为准，不以我的经验为准。'],
+      ['__PH__', 'W3–W6 · 做一个样板'],
+      ['动作', SIZE_MOVE[s] + '。具体到这次的场景：' + PAIN_PROJ[p] + '。'],
+      ['产出', '一个能点开的原型，跑真实数据，不是 PPT。同时把成本和延迟算清楚。'],
+      ['门槛', '样板必须带评测：先攒 50 条真实案例当基准，准确率不达标不上线。'],
+      ['__PH__', 'W7–W10 · 让它站住'],
+      ['动作', '容器化部署、接全链路 trace、把失败案例自动回流成新样本；每周复盘一次错误归因。'],
+      ['指标', '验收看这三个：' + PAIN_KPI[p] + '。上线前先测出基线，否则后面没法证明有效。'],
+      ['__PH__', 'W11–W13 · 交给别人'],
+      ['动作', '把样板拆成模板和内部工具，培训 2–3 个种子用户，写清楚什么该用、什么不该用。'],
+      ['交付', '一份使用规范 + 一份踩坑记录 + 一个能自己迭代的同事。这三样齐了，我才算交付完成。'],
+      ['风险', PAIN_RISK[p]]
+    ];
+  }
+
+  var planOut = document.getElementById('planOut');
+  var planSt = document.getElementById('planSt');
+  var lastPlanText = '';
+
+  var streamTimer = null;
+
+  function rowHTML(r){
+    if (r[0] === '__PH__') return '<div class="ln"><span class="ph">' + r[1] + '</span></div>';
+    return '<div class="ln"><span class="k">' + r[0] + '</span><span class="v">' + r[1] + '</span></div>';
+  }
+
+  function renderPlan(stream){
+    var rows = buildPlan();
+    if (streamTimer) { clearInterval(streamTimer); streamTimer = null; }
+
+    lastPlanText = '';
+    rows.forEach(function(r){
+      lastPlanText += (r[0] === '__PH__')
+        ? '\n【' + r[1] + '】\n'
+        : r[0] + '：' + r[1].replace(/<[^>]+>/g, '') + '\n';
+    });
+
+    planSt.textContent = 'generated · ' + SIZE_TXT[SEL.size] + ' / ' + IND_TXT[SEL.ind] + ' / ' + PAIN_TXT[SEL.pain];
+
+    if (!stream) {
+      planOut.innerHTML = rows.map(rowHTML).join('');
+      return;
+    }
+
+    planOut.innerHTML = '<div class="ln"><span class="k">STATUS</span><span class="v">正在根据你的选择生成…</span></div>';
+    var i = 0;
+    streamTimer = setInterval(function(){
+      if (i === 0) planOut.innerHTML = '';
+      planOut.insertAdjacentHTML('beforeend', rowHTML(rows[i]));
+      i++;
+      if (i >= rows.length) { clearInterval(streamTimer); streamTimer = null; }
+    }, 60);
+  }
+
+  function bindOpts(id, key){
+    var box = document.getElementById(id);
+    Array.prototype.forEach.call(box.querySelectorAll('button'), function(b){
+      b.addEventListener('click', function(){
+        Array.prototype.forEach.call(box.querySelectorAll('button'), function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        SEL[key] = b.getAttribute('data-v');
+      });
+    });
+  }
+  bindOpts('optSize','size');
+  bindOpts('optInd','ind');
+  bindOpts('optPain','pain');
+
+  document.getElementById('genBtn').addEventListener('click', function(){
+    renderPlan(true);
+  });
+
+  // 进页面先给一份默认方案，避免空盒子
+  renderPlan(false);
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var btn = this;
+    var text = '90 天 AI 落地路线\n' + (planSt.textContent || '') + '\n' + lastPlanText;
+    function ok(){ btn.textContent = '已复制'; setTimeout(function(){ btn.textContent = '复制这份路线'; }, 1400); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, ok);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta); ok();
+    }
+  });
+
+  /* ---------------- mail menu ---------------- */
+  var EMAIL = '2210914541@qq.com';
+  var mailBtn = document.getElementById('mailBtn');
+  var mailMenu = document.getElementById('mailMenu');
+  var SUBJ = encodeURIComponent('聊聊 AI 赋能这件事');
+  var MAIL = {
+    qq: 'https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=' + EMAIL,
+    '163': 'https://mail.163.com/',
+    '126': 'https://mail.126.com/',
+    gmail: 'https://mail.google.com/mail/?view=cm&fs=1&to=' + EMAIL + '&su=' + SUBJ,
+    outlook: 'https://outlook.live.com/mail/0/deeplink/compose?to=' + EMAIL + '&subject=' + SUBJ,
+    'default': 'mailto:' + EMAIL + '?subject=' + SUBJ
+  };
+  function closeMenu(){
+    mailMenu.classList.remove('open');
+    mailBtn.setAttribute('aria-expanded','false');
+  }
+  mailBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = mailMenu.classList.toggle('open');
+    mailBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mailMenu.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-mail]');
+    if (!b) return;
+    var k = b.getAttribute('data-mail');
+    if (k === 'copy') {
+      var done = function(){
+        b.childNodes[0].nodeValue = '已复制 ';
+        setTimeout(function(){ b.childNodes[0].nodeValue = '复制邮箱地址 '; closeMenu(); }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(EMAIL).then(done, done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = EMAIL; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch(e){}
+        document.body.removeChild(ta); done();
+      }
+      return;
+    }
+    if (MAIL[k]) window.open(MAIL[k], '_blank', 'noopener');
+    closeMenu();
+  });
+  document.addEventListener('click', function(e){
+    if (!e.target.closest('.mailwrap')) closeMenu();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeMenu();
+    if ((e.key === 't' || e.key === 'T')) {
+      var a = document.activeElement;
+      if (a && /input|textarea/i.test(a.tagName)) return;
+      document.getElementById('themeBtn').click();
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
