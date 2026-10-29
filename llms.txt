@@ -44,12 +44,40 @@ AI 生成代码质量方差大，无法判断可用性。用五维加权评分 +
 
 ## 开源工具
 
-- squeeze — 上下文压缩 CLI，实测省 60–87% token
+15 个零依赖单文件工具，共约 21,700 行 Python，只用标准库，复制即可运行。设计前提：目标机器装不了任何包。
+
+读懂代码
+- depmap — 模块依赖图，标出循环依赖与死代码
+- astdiff — 按语法树比对，缩进变化不算噪音
+- shapefind — 按代码形状搜索，注释与字符串不误命中
+
+代码质量
+- copyfind — 重复代码按克隆类分组，12 处重复只报 1 条
+- spellcode — 源码拼写检查，只报有把握的错拼
+- leakcheck — 按形状、键名、上下文找硬编码密钥，每条给证据链
+
+文档与发布
+- doc2md — 只读 OOXML 转 Markdown，不装包不联网
+- mddeck — Markdown 转幻灯片，不启浏览器，构建时算好排版
+- commitlog — git 历史转 CHANGELOG，顺带算下一个版本号
+
+数据与配置
+- csvsift — 一个命令完成选列、筛行、排序、截断、分组与统计，值保持原样
+- yamlsplice — 按路径读写 YAML，只改目标字节，注释与缩进原样保留
+- squeeze — 上下文压缩 CLI，实测省 60–87% token，错误行永不丢
+
+上线前检查
+- linkcheck — 只报真正坏掉的死链，代码块内链接不计
+- pngslim — 无损 PNG 瘦身，像素与元数据一字不动
+- benchloop — 交错跑多条命令，配对数据算加速比与 95% 置信区间
+
+AI 与长期项目
 - llm-as-judge — 多评委评分 + ICC 一致性检验
-- depmap — Python 模块依赖图，零依赖
-- reverse-engineer-for-everything — 软件逆向工具箱，带证据链
 - prompt-playground — 纯前端 Prompt 测试台
 - daily-forge — 每天复刻一个千星开源项目
+- reverse-engineer-for-everything — 软件逆向工具箱，带证据链
+- reverse-lab — 高星项目架构研报 + 源码解析 + 最小复刻
+- awesome-agentic-commerce — Agentic commerce 协议资源集
 
 ## 技术栈
 

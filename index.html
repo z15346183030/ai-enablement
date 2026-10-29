@@ -385,16 +385,23 @@ h1.hero-title .hl{
   font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.08em;
 }
 .os-head i{flex:1;height:1px;background:var(--line)}
-.os-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.os-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .os-item{
   background:var(--panel);padding:15px 17px;transition:background .16s;
   display:flex;flex-direction:column;gap:4px;
+  box-shadow:0 0 0 1px var(--line);
 }
 .os-item:hover{background:var(--panel-2)}
 .os-item .nm{font-family:var(--mono);font-size:12px;color:var(--ink);letter-spacing:-.01em;display:flex;align-items:center;gap:6px}
 .os-item .nm .go{color:var(--faint);font-size:10px;margin-left:auto;transition:color .16s}
 .os-item:hover .nm .go{color:var(--accent)}
 .os-item .ds{font-size:12px;color:var(--muted);line-height:1.5}
+.os-lead{font-size:14px;color:var(--ink-2);line-height:1.85;margin:0 0 6px;max-width:760px}
+.os-lead b{color:var(--ink);font-weight:600}
+.os-cat{display:flex;align-items:baseline;gap:9px;margin:24px 0 10px}
+.os-cat span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.os-cat em{font-style:normal;font-family:var(--mono);font-size:9.5px;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:4px;padding:0 5px}
+.os-cat i{flex:1;height:1px;background:var(--line)}
 
 /* ============================================================
    STACK
@@ -587,7 +594,7 @@ footer .r{margin-left:auto}
   }
   body{background:#fff;font-size:10.5pt}
   body::before{display:none}
-  .topbar,#progress,.icon-btn,.planner,.mailwrap,.mailmenu,.toast,.os-head,.os-grid,.tagrow{display:none!important}
+  .topbar,#progress,.icon-btn,.planner,.mailwrap,.mailmenu,.toast,.os-head,.os-grid,.os-lead,.os-cat,.tagrow{display:none!important}
   section{padding:14pt 0;break-inside:avoid}
   .rv{opacity:1!important;transform:none!important}
   .dogrid,.work-grid,.learn-grid{grid-template-columns:1fr 1fr}
@@ -915,23 +922,94 @@ footer .r{margin-left:auto}
 
     </div>
 
-    <div class="os-head rv"><span>开源工具 · 都是我遇到问题自己写的</span><i></i><span>GITHUB</span></div>
+    <div class="os-head rv"><span>开源工具 · 15 个零依赖工具 / 21,700 行 Python</span><i></i><span>GITHUB</span></div>
+    <p class="os-lead rv">这些不是练手项目。它们对应的是公司里<b>没人负责、但必须有东西能用</b>的那些环节：看懂别人的代码、把客户给的 Word 变成能进库的文档、上线前扫一遍密钥、改配置不留噪音。<br>我自己的标准很硬：<b>一个文件、只用标准库、复制过去就能跑</b>——因为「装不了包」的那台机器，才是真实环境。而且每个都带测试：1.35 万行工具代码配 0.81 万行测试。</p>
+
+    <div class="os-cat rv"><span>读懂代码</span><em>03</em><i></i></div>
     <div class="os-grid rv">
+      <a class="os-item" href="https://github.com/z15346183030/depmap" target="_blank" rel="noopener">
+        <span class="nm">depmap <span class="go">↗</span></span>
+        <span class="ds">模块依赖图，标出循环依赖与死代码</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/astdiff" target="_blank" rel="noopener">
+        <span class="nm">astdiff <span class="go">↗</span></span>
+        <span class="ds">按语法树比对，缩进变化不再算噪音</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/shapefind" target="_blank" rel="noopener">
+        <span class="nm">shapefind <span class="go">↗</span></span>
+        <span class="ds">按代码形状搜索，注释与字符串不误命中</span>
+      </a>
+    </div>
+
+    <div class="os-cat rv"><span>代码质量</span><em>03</em><i></i></div>
+    <div class="os-grid rv">
+      <a class="os-item" href="https://github.com/z15346183030/copyfind" target="_blank" rel="noopener">
+        <span class="nm">copyfind <span class="go">↗</span></span>
+        <span class="ds">重复代码按克隆类分组，12 处只报 1 条</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/spellcode" target="_blank" rel="noopener">
+        <span class="nm">spellcode <span class="go">↗</span></span>
+        <span class="ds">源码拼写检查，只报有把握的错拼</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/leakcheck" target="_blank" rel="noopener">
+        <span class="nm">leakcheck <span class="go">↗</span></span>
+        <span class="ds">找硬编码密钥，每条给证据链和置信分</span>
+      </a>
+    </div>
+
+    <div class="os-cat rv"><span>文档与发布</span><em>03</em><i></i></div>
+    <div class="os-grid rv">
+      <a class="os-item" href="https://github.com/z15346183030/doc2md" target="_blank" rel="noopener">
+        <span class="nm">doc2md <span class="go">↗</span></span>
+        <span class="ds">只读 OOXML 转 Markdown，不装包不联网</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/mddeck" target="_blank" rel="noopener">
+        <span class="nm">mddeck <span class="go">↗</span></span>
+        <span class="ds">Markdown 转幻灯片，不启浏览器</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/commitlog" target="_blank" rel="noopener">
+        <span class="nm">commitlog <span class="go">↗</span></span>
+        <span class="ds">git 历史转 CHANGELOG，顺带算版本号</span>
+      </a>
+    </div>
+
+    <div class="os-cat rv"><span>数据与配置</span><em>03</em><i></i></div>
+    <div class="os-grid rv">
+      <a class="os-item" href="https://github.com/z15346183030/csvsift" target="_blank" rel="noopener">
+        <span class="nm">csvsift <span class="go">↗</span></span>
+        <span class="ds">一个命令完成选筛排截分组，值永远原样</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/yamlsplice" target="_blank" rel="noopener">
+        <span class="nm">yamlsplice <span class="go">↗</span></span>
+        <span class="ds">按路径改 YAML，只动那几个字节</span>
+      </a>
       <a class="os-item" href="https://github.com/z15346183030/squeeze" target="_blank" rel="noopener">
         <span class="nm">squeeze <span class="go">↗</span></span>
         <span class="ds">上下文压缩 CLI，实测省 60–87% token</span>
       </a>
+    </div>
+
+    <div class="os-cat rv"><span>上线前检查</span><em>03</em><i></i></div>
+    <div class="os-grid rv">
+      <a class="os-item" href="https://github.com/z15346183030/linkcheck" target="_blank" rel="noopener">
+        <span class="nm">linkcheck <span class="go">↗</span></span>
+        <span class="ds">只报真坏的死链，代码块内链接不计</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/pngslim" target="_blank" rel="noopener">
+        <span class="nm">pngslim <span class="go">↗</span></span>
+        <span class="ds">无损 PNG 瘦身，像素与元数据一字不动</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/benchloop" target="_blank" rel="noopener">
+        <span class="nm">benchloop <span class="go">↗</span></span>
+        <span class="ds">配对数据算加速比与 95% 置信区间</span>
+      </a>
+    </div>
+
+    <div class="os-cat rv"><span>AI 与长期项目</span><em>06</em><i></i></div>
+    <div class="os-grid rv">
       <a class="os-item" href="https://github.com/z15346183030/llm-as-judge" target="_blank" rel="noopener">
         <span class="nm">llm-as-judge <span class="go">↗</span></span>
         <span class="ds">多评委评分 + ICC 一致性检验</span>
-      </a>
-      <a class="os-item" href="https://github.com/z15346183030/depmap" target="_blank" rel="noopener">
-        <span class="nm">depmap <span class="go">↗</span></span>
-        <span class="ds">Python 模块依赖图，零依赖，读懂陌生代码库</span>
-      </a>
-      <a class="os-item" href="https://github.com/z15346183030/reverse-engineer-for-everything" target="_blank" rel="noopener">
-        <span class="nm">逆向一切 <span class="go">↗</span></span>
-        <span class="ds">软件逆向工具箱，每一步都留证据链</span>
       </a>
       <a class="os-item" href="https://github.com/z15346183030/prompt-playground" target="_blank" rel="noopener">
         <span class="nm">prompt-playground <span class="go">↗</span></span>
@@ -940,6 +1018,18 @@ footer .r{margin-left:auto}
       <a class="os-item" href="https://github.com/z15346183030/daily-forge" target="_blank" rel="noopener">
         <span class="nm">daily-forge <span class="go">↗</span></span>
         <span class="ds">每天复刻一个千星项目，保持手速</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/reverse-engineer-for-everything" target="_blank" rel="noopener">
+        <span class="nm">逆向一切 <span class="go">↗</span></span>
+        <span class="ds">软件逆向工具箱，每一步都留证据链</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/reverse-lab" target="_blank" rel="noopener">
+        <span class="nm">reverse-lab <span class="go">↗</span></span>
+        <span class="ds">架构研报 + 源码解析 + 最小复刻</span>
+      </a>
+      <a class="os-item" href="https://github.com/z15346183030/awesome-agentic-commerce" target="_blank" rel="noopener">
+        <span class="nm">awesome-agentic-commerce <span class="go">↗</span></span>
+        <span class="ds">Agentic commerce 协议资源集</span>
       </a>
     </div>
   </div>
