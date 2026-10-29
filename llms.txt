@@ -81,7 +81,7 @@ AI 与长期项目
 
 ## 技术栈
 
-- 模型层：GPT-4 / o 系列、Claude、Gemini、开源模型本地部署、微调与蒸馏、量化推理、多模型对比评测、模型路由、Embedding 选型
+- 模型层：GPT-5.x、Claude Opus / Sonnet 5.x、Gemini 3.x / Omni、开源本地部署（Qwen3.5 / DeepSeek V4）、推理强度分档（thinking / effort）、模型路由与降级、多模型对比评测、微调与蒸馏、量化推理（GGUF / AWQ）、Embedding 与重排选型、多模态生成（图 / 视频）
 - 应用层：Prompt 工程、RAG、Agent 编排、Function Calling、MCP、LangChain、LlamaIndex、多 Agent 协作、上下文压缩、结构化输出、工作流状态机
 - 数据层：Python、SQL、pandas、向量数据库、文档切分、混合召回与重排、数据清洗、口径对齐、增量同步、ETL
 - 工程层：FastAPI、Git、Linux、Docker、Kubernetes、CI/CD、OpenTelemetry、日志与 trace、成本与延迟监控、灰度与回滚、PII 护栏
